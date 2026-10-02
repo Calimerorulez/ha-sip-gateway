@@ -1,4 +1,6 @@
-# ![logo](icon.png) ha-sip 
+# ![logo](icon.png) ha-sip
+
+> This repository is maintained by **Calimerorulez** and is based on the original [ha-sip project by Arne Gellhaus](https://github.com/arnonym/ha-plugins). Original authorship and contributor history are preserved; changes in this fork are maintained here under the existing Apache-2.0 license.
 
 ### Home Assistant SIP/VoIP Gateway is a Home Assistant app which 
 - allows the dialing and hanging up of phone numbers through a SIP end-point 
@@ -12,12 +14,12 @@
 
 ## Installation
 
-[![Open your Home Assistant instance and show the add app repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Farnonym%2Fha-plugins)
+[![Open your Home Assistant instance and show the add app repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2FCalimerorulez%2Fha-sip-gateway)
 
 This app is for the Home Assistant OS or supervised installation methods mentioned in
 https://www.home-assistant.io/installation/. With that in place you can install this third-party plug-in like described in
 https://www.home-assistant.io/common-tasks/os#installing-a-third-party-app-repository. The repository URL is
-`https://github.com/arnonym/ha-plugins`.
+`https://github.com/Calimerorulez/ha-sip-gateway`.
 
 > **Note:**
 > Alternatively you can run ha-sip in a stand-alone mode (for Home Assistant Container installations). 
@@ -860,8 +862,7 @@ Instead of stdin - MQTT will be used for communication.
 
 ## Support
 
-If you find this project helpful, please consider giving it a star ⭐ on GitHub!
-Your support helps others discover the project and keeps me motivated.
+If you find this maintained fork helpful, you can star this repository on GitHub. For the original project and its history, see [Arne Gellhaus' ha-plugins repository](https://github.com/arnonym/ha-plugins).
 
 ## Development
 

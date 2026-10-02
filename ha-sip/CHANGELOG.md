@@ -1,6 +1,6 @@
 # Changelog
 
-If you find ha-sip useful, consider starring ⭐ the [GitHub repo](https://github.com/arnonym/ha-plugins)!
+This fork is maintained at [Calimerorulez/ha-sip-gateway](https://github.com/Calimerorulez/ha-sip-gateway). The changelog below preserves the original project history.
 
 ## 5.6
 

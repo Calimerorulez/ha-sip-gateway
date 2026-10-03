@@ -1,5 +1,17 @@
 # Changelog
 
+## 5.7
+
+- Use the Calimerorulez GHCR image for the maintained fork.
+- Fix TURN configuration so incomplete credentials disable TURN instead of creating a broken configuration.
+- Parse global and SIP option strings with shell-style quoting.
+- Prevent dialing from crashing when no SIP account is enabled.
+- Add HTTP and WebSocket timeouts for Home Assistant, webhook, sensor and TTS requests.
+- Make MQTT reconnect retries non-blocking for the SIP event loop.
+- Harden exception handling when loading incoming-call menu files.
+- Streamline the runtime image build and remove the development-only Pyright dependency from the container.
+- Add regression tests for quoted option values and incomplete TURN credentials.
+
 This fork is maintained at [Calimerorulez/ha-sip-gateway](https://github.com/Calimerorulez/ha-sip-gateway). The changelog below preserves the original project history.
 
 ## 5.6

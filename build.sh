@@ -140,7 +140,7 @@ case "$1" in
         rm -rf "$SCRIPT_DIR"/venv "$SCRIPT_DIR"/deps
         python3 -m venv "$SCRIPT_DIR"/venv
         source "$SCRIPT_DIR"/venv/bin/activate
-        pip3 install -r "$SCRIPT_DIR"/ha-sip/requirements.txt
+        pip3 install -r "$SCRIPT_DIR"/ha-sip/requirements-dev.txt
         mkdir "$SCRIPT_DIR"/deps
         cd "$SCRIPT_DIR"/deps || exit
         git clone --depth 1 --branch 2.17 https://github.com/pjsip/pjproject.git

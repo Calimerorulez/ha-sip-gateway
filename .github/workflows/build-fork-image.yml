@@ -13,6 +13,10 @@ permissions:
   contents: read
   packages: write
 
+concurrency:
+  group: build-fork-image-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   IMAGE_NAME: ghcr.io/calimerorulez/ha-sip-gateway
   IMAGE_VERSION: "5.7"

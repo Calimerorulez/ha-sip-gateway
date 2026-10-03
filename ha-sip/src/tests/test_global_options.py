@@ -65,6 +65,10 @@ class GlobalOptionsTest(unittest.TestCase):
         options = parse_global_options('--enable-mqtt')
         self.assertEqual(options.enable_mqtt, True)
 
+    def test_parse_mqtt_password_with_spaces(self):
+        options = parse_global_options('--enable-mqtt --mqtt-password "secret with spaces"')
+        self.assertEqual(options.mqtt_password, 'secret with spaces')
+
     def test_parse_mqtt_full(self):
         options = parse_global_options(
             '--enable-mqtt --mqtt-address 192.168.1.1 --mqtt-port 1884 '

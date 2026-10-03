@@ -64,6 +64,18 @@ class SipOptionsTest(unittest.TestCase):
         self.assertEqual(options.turn_server.user, 'user' )
         self.assertEqual(options.turn_server.password, 'pass')
 
+    def test_parse_turn_server_without_password_is_disabled(self):
+        options = parse_sip_options('--turn-server turn:example.com:3478 --turn-user user')
+        self.assertIsNone(options.turn_server)
+
+    def test_parse_turn_server_without_user_is_disabled(self):
+        options = parse_sip_options('--turn-server turn:example.com:3478 --turn-password pass')
+        self.assertIsNone(options.turn_server)
+
+    def test_parse_proxy_with_spaces(self):
+        options = parse_sip_options('--proxy "sip:proxy name@example.com"')
+        self.assertEqual(options.proxy, 'sip:proxy name@example.com')
+
     def test_parse_turn_server_type_tcp(self):
         options = parse_sip_options('--turn-server turn:example.com:3478 --turn-connection-type tcp --turn-user user --turn-password pass')
         if not options.turn_server:

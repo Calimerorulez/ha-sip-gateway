@@ -1,3 +1,14 @@
+> [!IMPORTANT]
+> **This repository has moved.**
+>
+> The maintained ha-sip app is now part of **Calimerorulez' Home Assistant Apps**:
+> https://github.com/Calimerorulez/hassio-addons/tree/main/ha-sip
+>
+> Please use the Home Assistant repository:
+> https://github.com/Calimerorulez/hassio-addons
+>
+> This repository is retained only for history and should no longer be used for new installations.
+
 # ![logo](icon.png) ha-sip
 
 > This repository is maintained by **Calimerorulez** and is based on the original [ha-sip project by Arne Gellhaus](https://github.com/arnonym/ha-plugins). Original authorship and contributor history are preserved; changes in this fork are maintained here under the existing Apache-2.0 license.

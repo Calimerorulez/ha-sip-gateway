@@ -1,4 +1,5 @@
 import argparse
+import shlex
 from typing import Optional
 
 from log import log
@@ -141,7 +142,7 @@ def create_parser() -> argparse.ArgumentParser:
 def parse_global_options(raw: Optional[str]) -> GlobalOptions:
     raw_str = raw if raw else ''
     parser = create_parser()
-    args = parser.parse_args(raw_str.split())
+    args = parser.parse_args(shlex.split(raw_str))
     return GlobalOptions(
         stun_server=args.stun_server,
         enable_udp=is_true(args.udp),

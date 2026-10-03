@@ -13,6 +13,8 @@ import audio
 import utils
 from log import log
 
+HTTP_TIMEOUT = (5, 30)
+
 
 class WebhookBaseFields(TypedDict):
     remote_uri: str
@@ -191,7 +193,7 @@ def create_and_get_tts(ha_config: HaConfig, message: str, language: str) -> tupl
     payload = options | message_and_language | engine_or_platform
     if ha_config.tts_config['debug_print']:
         log(None, f'TTS payload: {payload!r}')
-    create_response = requests.post(ha_config.get_tts_url(), json=payload, headers=headers)
+    create_response = requests.post(ha_config.get_tts_url(), json=payload, headers=headers, timeout=HTTP_TIMEOUT)
     if create_response.status_code != 200:
         log(None, f'Error getting tts file {create_response.status_code!r} {create_response.content!r}')
         error_file_name = os.path.join(constants.ROOT_PATH, 'sound/error.wav')
@@ -200,7 +202,7 @@ def create_and_get_tts(ha_config: HaConfig, message: str, language: str) -> tupl
     tts_url = response_deserialized['url']
     log(None, f'Getting audio from "{tts_url}"')
     try:
-        tts_response = requests.get(tts_url, headers=headers)
+        tts_response = requests.get(tts_url, headers=headers, timeout=HTTP_TIMEOUT)
     except Exception as e:
         log(None, f'Error getting tts audio: {e}')
         return error_file_name, False, False
@@ -218,7 +220,7 @@ def create_and_get_tts(ha_config: HaConfig, message: str, language: str) -> tupl
 def render_template(ha_config: HaConfig, text: str) -> str:
     log(None, f'Rendering template: {text}')
     headers = ha_config.create_headers()
-    template_response = requests.post(ha_config.get_template_url(), json={'template': text}, headers=headers)
+    template_response = requests.post(ha_config.get_template_url(), json={'template': text}, headers=headers, timeout=HTTP_TIMEOUT)
     log(None, f'Template response {template_response.status_code!r} {template_response.content!r}')
     return template_response.text if template_response.ok else text
 
@@ -230,7 +232,7 @@ def call_service(ha_config: HaConfig, domain: str, service: str, entity_id: Opti
         payload.update({'entity_id': entity_id})
     if service_data:
         payload.update(service_data)
-    service_response = requests.post(ha_config.get_service_url(domain, service), json=payload, headers=headers)
+    service_response = requests.post(ha_config.get_service_url(domain, service), json=payload, headers=headers, timeout=HTTP_TIMEOUT)
     log(None, f'Service response {service_response.status_code!r} {service_response.content!r}')
 
 
@@ -241,14 +243,14 @@ def trigger_webhook(ha_config: HaConfig, event: Any, overwrite_webhook_id: Optio
         return
     log(None, f'Calling webhook {webhook_id} with data {event}')
     headers = ha_config.create_headers()
-    service_response = requests.post(ha_config.get_webhook_url(webhook_id), json=event, headers=headers)
+    service_response = requests.post(ha_config.get_webhook_url(webhook_id), json=event, headers=headers, timeout=HTTP_TIMEOUT)
     log(None, f'Webhook response {service_response.status_code!r} {service_response.content!r}')
 
 
 async def print_tts_providers(ha_config: HaConfig) -> None:
     ws_url = ha_config.websocket_url
     log(None, f"Connecting to websocket under URL '{ws_url}'")
-    async with websockets.connect(ws_url) as websocket:
+    async with websockets.connect(ws_url, open_timeout=10, close_timeout=10) as websocket:
         await websocket.recv()
         # Send auth
         await websocket.send(json.dumps({

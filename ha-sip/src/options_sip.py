@@ -1,4 +1,5 @@
 import argparse
+import shlex
 from argparse import ArgumentParser
 
 from pjsua2 import PJ_TURN_TP_TCP, PJ_TURN_TP_UDP, PJ_TURN_TP_TLS
@@ -182,14 +183,18 @@ def create_parser() -> ArgumentParser:
 def parse_sip_options(raw: str, account_index: int = 0) -> SipOptions:
     raw_str = raw if raw else ''
     parser = create_parser()
-    args = parser.parse_args(raw_str.split())
-    if (
-        args.turn_server and
-        not args.turn_user and
-        not args.turn_password
-    ):
-        log(account_index, 'Error: TURN server requires user and password. Disabling TURN server.')
-    turn_server = TurnServer(args.turn_server, args.turn_connection_type, args.turn_user, args.turn_password) if args.turn_server else None
+    args = parser.parse_args(shlex.split(raw_str))
+    turn_server = None
+    if args.turn_server:
+        if not args.turn_user or not args.turn_password:
+            log(account_index, 'Error: TURN server requires both user and password. Disabling TURN server.')
+        else:
+            turn_server = TurnServer(
+                args.turn_server,
+                args.turn_connection_type,
+                args.turn_user,
+                args.turn_password,
+            )
     extract_headers = [h.strip() for h in args.extract_headers.split(',')] if args.extract_headers else []
     return SipOptions(
         proxy=args.proxy,

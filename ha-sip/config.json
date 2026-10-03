@@ -1,6 +1,6 @@
 {
     "name": "ha-sip",
-    "version": "5.6.1",
+    "version": "5.7",
     "slug": "ha-sip",
     "url": "https://github.com/Calimerorulez/ha-sip-gateway",
     "description": "Home-Assistant SIP Gateway",

@@ -9,6 +9,8 @@ import requests
 from ha import HaConfig
 from log import log
 
+HTTP_TIMEOUT = (5, 15)
+
 
 @dataclass
 class SensorConfig:
@@ -51,7 +53,7 @@ class SensorUpdater:
             "attributes": filtered_attributes,
         }
         try:
-            response = requests.post(url, json=payload, headers=headers)
+            response = requests.post(url, json=payload, headers=headers, timeout=HTTP_TIMEOUT)
             if response.ok:
                 log(None, f"Sensor update {entity_id}: {response.status_code}")
             else:

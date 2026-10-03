@@ -34,6 +34,8 @@ class MqttClient:
         self.client.on_message = self.on_message
         self.client.on_disconnect = self.on_disconnect
         self.client.username_pw_set(self.username, self.password)
+        self._next_reconnect_at = 0.0
+        self._reconnect_interval = 5.0
 
     def is_connected(self):
         return self.client.is_connected()
@@ -58,13 +60,14 @@ class MqttClient:
         self.client.connect(self.broker_address, self.port, 60)
 
     def handle(self):
-        if not self.client.is_connected():
+        now = time.monotonic()
+        if not self.client.is_connected() and now >= self._next_reconnect_at:
+            self._next_reconnect_at = now + self._reconnect_interval
             try:
                 self.client.reconnect()
-            except:
-                log(None, 'Reconnect to mqtt broker failed. Trying again....')
-                time.sleep(1)
-        self.client.loop()
+            except Exception as e:
+                log(None, f'Reconnect to mqtt broker failed: {e}. Retrying in {self._reconnect_interval:.0f}s.')
+        self.client.loop(timeout=0.01)
 
     def send_event(self, event: Any):
         if not self.topic_state:

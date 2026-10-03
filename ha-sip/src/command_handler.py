@@ -82,7 +82,12 @@ class CommandHandler(object):
                 ring_timeout = utils.convert_to_float(command.get('ring_timeout'), DEFAULT_RING_TIMEOUT)
                 sip_account_number = utils.convert_to_int(command.get('sip_account'), -1)
                 webhooks = command.get('webhook_to_call')
-                sip_account = self.sip_accounts.get(sip_account_number, next(iter(self.sip_accounts.values())))
+                if not self.sip_accounts:
+                    log(None, 'Error: Cannot dial because no SIP accounts are enabled.')
+                    return
+                sip_account = self.sip_accounts.get(sip_account_number)
+                if sip_account is None:
+                    sip_account = next(iter(self.sip_accounts.values()))
                 call.make_call(self.end_point, sip_account, number, menu, self, self.event_sender, self.ha_config, ring_timeout, webhooks)
             case 'hangup':
                 if not number:
